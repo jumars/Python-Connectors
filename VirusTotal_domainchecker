@@ -1,0 +1,32 @@
+#!/usr/bin/python3
+
+#library imports
+import requests, sys,json,io
+
+user_api_key = "API KEY HERE"
+# Get domain as parameter
+domain_param = str(sys.argv[1])
+
+params = {
+    'apikey': user_api_key,
+    'resource': domain_param, 
+    'allinfo': True
+    }
+  
+#Make get call and store it on response variable
+response = requests.get('https://www.virustotal.com/vtapi/v2/url/report', params=params)
+
+# turn the respose into json
+json_response = response.json()
+
+Link = json_response['permalink']
+Detections = json_response['positives']
+Total = json_response['total']
+
+# write report to file on the same directory as the script
+
+with open('vdomainreport.txt', 'w') as f:
+  f.write("Scan Link:"+ str(Link) +"\n")
+  f.write("Detections:"+ str(Detections)+"\n")
+  f.write("Total Scans:"+ str(Total))
+f.close()
