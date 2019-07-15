@@ -3,7 +3,7 @@
 #library imports
 import requests, sys,json,io
 
-user_api_key = "4a41db68d17993af0f8d6870ebf20e3f8f258879438e3dae11801507597b3402"
+user_api_key = "API KEY HERE"
 # Get hash as parameter
 user_hash = str(sys.argv[1])
 
