@@ -1,0 +1,41 @@
+#!/usr/bin/python3
+
+#library imports
+import requests, sys,json,io
+
+user_api_key = "4a41db68d17993af0f8d6870ebf20e3f8f258879438e3dae11801507597b3402"
+# Get hash as parameter
+user_hash = str(sys.argv[1])
+
+params = {
+    'apikey': user_api_key,
+    'resource': user_hash, 
+    'allinfo': True
+    }
+  
+#Make get call and store it on response variable
+response = requests.get('https://www.virustotal.com/vtapi/v2/file/report', params=params)
+
+# turn the respose into json
+json_response = response.json()
+Link = json_response['permalink']
+Detections = json_response['positives']
+Total = json_response['total']
+MD5 = json_response['md5']
+SHA1 = json_response['sha1']
+SHA256 = json_response['sha256']
+Resource = json_response['resource']
+
+# write report to file on the same directory as the script
+
+with open('vhashreport.txt', 'w') as f:
+  f.write("Results for:"+str(Resource)+"\n")
+  f.write("Scan Link:"+ str(Link) +"\n")
+  f.write("Detections:"+ str(Detections)+"\n")
+  f.write("Total Scans:"+ str(Total)+"\n")
+  f.write("Md5 Hash:"+ str(MD5)+"\n")
+  f.write("Sha1:"+ str(SHA1)+"\n")
+  f.write("Sha256:"+ str(SHA256)+"\n")
+
+
+f.close()
